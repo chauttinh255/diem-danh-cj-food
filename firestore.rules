@@ -1,0 +1,19 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Cho phép đọc/ghi tự do — phù hợp cho công cụ nội bộ, không cần đăng nhập.
+    // Dán nguyên đoạn này vào Firebase Console > Firestore Database > Rules > Publish.
+    //
+    // LƯU Ý BẢO MẬT: bất kỳ ai có link app + biết địa chỉ Firestore đều có thể
+    // đọc/ghi dữ liệu. Chỉ chia sẻ link cho nội bộ công ty, không đăng public.
+    // Nếu cần chặt chẽ hơn, có thể giới hạn theo cấu trúc document, ví dụ chỉ
+    // cho phép ghi vào 2 collection của app này:
+    match /attendance_lines/{docId} {
+      allow read, write: if true;
+    }
+    match /attendance_dates/{docId} {
+      allow read, write: if true;
+    }
+  }
+}
