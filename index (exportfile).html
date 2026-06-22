@@ -416,14 +416,14 @@
   // 3) Project settings > General > Your apps > biểu tượng Web "</>"  > copy đoạn config
   // 4) Dán đè vào object bên dưới rồi lưu file trước khi deploy.
   // Xem README.md đi kèm để có hướng dẫn đầy đủ từng bước.
-  var firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT.firebaseapp.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT.appspot.com",
-    messagingSenderId: "YOUR_SENDER_ID",
-    appId: "YOUR_APP_ID"
-  };
+const firebaseConfig = {
+  apiKey: "AIzaSyBtltBvrGh1pgrV63Hlq2KlkL4_WRJXLw4",
+  authDomain: "cj-food-diem-danh.firebaseapp.com",
+  projectId: "cj-food-diem-danh",
+  storageBucket: "cj-food-diem-danh.firebasestorage.app",
+  messagingSenderId: "448987186288",
+  appId: "1:448987186288:web:5ae8b34869c374220520b5"
+};
   var FIREBASE_CONFIGURED = firebaseConfig.apiKey !== "YOUR_API_KEY" && !!firebaseConfig.apiKey;
   var db = null;
   if(FIREBASE_CONFIGURED && typeof firebase !== 'undefined'){
