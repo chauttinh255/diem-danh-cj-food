@@ -324,7 +324,8 @@
     {key:'hkm', label:'HKM'},
     {key:'dpl', label:'DPL'},
     {key:'psas', label:'PSAS'},
-    {key:'TN', label:'TN'},
+    {key:'ddp',  label:'DDP'},
+    {key:'tn',   label:'TN'},
     {key:'greenhm', label:'Green HM'}
   ];
 
@@ -429,14 +430,14 @@
   // 3) Project settings > General > Your apps > biểu tượng Web "</>"  > copy đoạn config
   // 4) Dán đè vào object bên dưới rồi lưu file trước khi deploy.
   // Xem README.md đi kèm để có hướng dẫn đầy đủ từng bước.
- const firebaseConfig = {
-  apiKey: "AIzaSyBtltBvrGh1pgrV63Hlq2KlkL4_WRJXLw4",
-  authDomain: "cj-food-diem-danh.firebaseapp.com",
-  projectId: "cj-food-diem-danh",
-  storageBucket: "cj-food-diem-danh.firebasestorage.app",
-  messagingSenderId: "448987186288",
-  appId: "1:448987186288:web:5ae8b34869c374220520b5"
-};
+  var firebaseConfig = {
+    apiKey: "AIzaSyBtltBvrGh1pgrV63Hlq2KlkL4_WRJXLw4",
+    authDomain: "cj-food-diem-danh.firebaseapp.com",
+    projectId: "cj-food-diem-danh",
+    storageBucket: "cj-food-diem-danh.firebasestorage.app",
+    messagingSenderId: "448987186288",
+    appId: "1:448987186288:web:5ae8b34869c374220520b5"
+  };
   var FIREBASE_CONFIGURED = firebaseConfig.apiKey !== "YOUR_API_KEY" && !!firebaseConfig.apiKey;
   var db = null;
   if(FIREBASE_CONFIGURED && typeof firebase !== 'undefined'){
@@ -456,7 +457,14 @@
     if(!db) return def;
     try{
       var snap = await db.collection(LINES_COLLECTION).doc(docId(date,cfg.key)).get();
-      if(snap.exists){ return Object.assign(def, snap.data()); }
+      if(snap.exists){
+        var merged = Object.assign(def, snap.data());
+        // Đảm bảo tất cả OEM key tồn tại (record cũ có thể thiếu đối tác mới thêm vào)
+        OEM.forEach(function(o){
+          if(!merged.oem[o.key]) merged.oem[o.key] = {siso:0,hiendien:0,ghichu:'',lydo:''};
+        });
+        return merged;
+      }
     }catch(e){ console.error('loadLineRecord', e); }
     return def;
   }
